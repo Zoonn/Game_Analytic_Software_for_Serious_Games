@@ -5,6 +5,7 @@ import config
 import json
 import os
 
+
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
@@ -18,7 +19,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 mongo = PyMongo(app)
 
-path = cwd + "JSONs\\logs.json"
+path = cwd + "\\JSONs"
 
 
 def allowed_file(filename):
@@ -58,12 +59,13 @@ def replace_dot(string):
     return newstring
 
 
-def init_db():
-    with open(path) as f:
+def init_db(newpath):
+    with open(newpath) as f:
         with app.app_context():
             entries = mongo.db.entries
             for parsed_json in load_json_multiple(f):
                 newjson = change_keys(parsed_json, replace_dot)
+                print(newjson)
                 entries.update_one(
                      {"id": newjson["id"]},
                      {"$setOnInsert": newjson},
@@ -86,9 +88,16 @@ def upload_file():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
+            filename = os.path.splitext(filename)[0] + ".json"
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             flash(filename + ": Upload successful!")
+            newpath = path + "\\"+filename
+            init_db(newpath)
+            flash(filename + ": Upload into database successful!")
             return redirect(request.url)
+        else:
+            flash("No supported file")
+
     return render_template('upload.html')
 
 
