@@ -19,6 +19,7 @@ function search() {
     req.send();
 }
 
+
 function teeTaulukko(info) {
 
     // Silmukoidaan JSON:sta saatua tietoa
@@ -47,3 +48,4 @@ function teeTaulukko(info) {
 butn.addEventListener("click", function() {
     search();
 });
+
