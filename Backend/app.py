@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect, flash, jsonify, make_response, url_for
 from flask_pymongo import PyMongo
 from werkzeug.utils import secure_filename
+from bson import json_util
+from bson.objectid import ObjectId
 import config
 import json
 import os
@@ -13,7 +15,7 @@ cwd = os.getcwd()
 UPLOAD_FOLDER = cwd + '\JSONs'
 ALLOWED_EXTENSIONS = config.allowed_extensions
 
-app.config['MONGO_DBNAME'] = config.mongouser
+app.config['MONGO_DBNAME'] = config.dbname
 app.config['MONGO_URI'] = config.mongouri
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -65,7 +67,6 @@ def init_db(newpath):
             entries = mongo.db.entries
             for parsed_json in load_json_multiple(f):
                 newjson = change_keys(parsed_json, replace_dot)
-                print(newjson)
                 entries.update_one(
                      {"id": newjson["id"]},
                      {"$setOnInsert": newjson},
@@ -101,9 +102,50 @@ def upload_file():
     return render_template('upload.html')
 
 
+def toJson(data):
+    """Convert Mongo object(s) to JSON"""
+    return json.dumps(data, default=json_util.default, sort_keys=True, indent=4, separators=(',', ': ')
+                      , ensure_ascii=False)
+
+
 @app.route('/')
 def index():
     return render_template('home.html')
+
+
+@app.route('/json.html', methods=['GET'])
+def get_all_entries():
+    entry = mongo.db.entries
+    lim = int(request.args.get('limit', 100))
+    off = int(request.args.get('offset', 0))
+    results = entry.find().skip(off).limit(lim)
+    json_results = []
+    for result in results:
+        json_results.append(result)
+    return render_template("json.html", json=toJson(json_results))
+
+
+@app.route('/entries/<username>', methods=['GET'])
+def get_one_entry(username):
+    entry = mongo.db.entries
+
+    s = entry.find_one({'userName' : username})
+    if s:
+        output = {'userName' : s['userName'], 'appName' : s['appName']}
+    else:
+        output = "No such name"
+    return jsonify({'result' : output})
+
+
+@app.route('/entries', methods=['POST'])
+def add_entry():
+    entry = mongo.db.entries
+    name = request.json['userName']
+    appName = request.json['appName']
+    entry_id = entry.insert({'userName': name, 'appName': appName})
+    new_entry = entry.find_one({'_id': entry_id })
+    output = {'name' : new_entry['name'], 'appName' : new_entry['appName']}
+    return jsonify({'result' : output})
 
 
 if __name__ == "__main__":
