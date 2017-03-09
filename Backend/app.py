@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, redirect, flash, jsonify, make_response, url_for
+
+
+from flask import Flask, render_template, request, redirect, flash, jsonify
 from flask_pymongo import PyMongo
 from werkzeug.utils import secure_filename
 from bson import json_util
-from bson.objectid import ObjectId
 import config
 import json
 import os
@@ -113,39 +114,94 @@ def index():
     return render_template('home.html')
 
 
-@app.route('/json.html', methods=['GET'])
+@app.route('/fetch', methods=['GET'])
 def get_all_entries():
     entry = mongo.db.entries
-    lim = int(request.args.get('limit', 100))
+    lim = int(request.args.get('limit', 200))
     off = int(request.args.get('offset', 0))
     results = entry.find().skip(off).limit(lim)
     json_results = []
+    json_keys = []
+    key = 0
     for result in results:
         json_results.append(result)
-    return render_template("json.html", json=toJson(json_results))
+        keys = result.keys()
+        for key in keys:
+            if key not in json_keys:
+                json_keys.append(key)
+    return render_template("json.html", json=toJson(json_results), names=json_keys)
 
 
-@app.route('/entries/<username>', methods=['GET'])
-def get_one_entry(username):
+@app.route('/delete_entries')
+def delete_entries():
+    entry = mongo.db.entries
+    entry.drop()
+    flash("Dropped collection")
+    return render_template("home.html")
+
+
+@app.route('/entries', methods=['GET'])
+def get_entries():
+    entry = mongo.db.entries
+    lim = int(request.args.get('limit', 200))
+    off = int(request.args.get('offset', 0))
+    results = entry.find().skip(off).limit(lim)
+    json_results = []
+
+    for result in results:
+        json_results.append(result)
+
+    return toJson(json_results)
+
+
+@app.route('/entries/<json_id>', methods=['GET'])
+def get_entry(json_id):
     entry = mongo.db.entries
 
-    s = entry.find_one({'userName' : username})
-    if s:
-        output = {'userName' : s['userName'], 'appName' : s['appName']}
-    else:
-        output = "No such name"
-    return jsonify({'result' : output})
+    results = entry.find({ },{json_id : 1, "_id" :0})
+    json_results = []
+
+    for result in results:
+        json_results.append(result)
+
+    return toJson(json_results)
 
 
-@app.route('/entries', methods=['POST'])
-def add_entry():
-    entry = mongo.db.entries
-    name = request.json['userName']
-    appName = request.json['appName']
-    entry_id = entry.insert({'userName': name, 'appName': appName})
-    new_entry = entry.find_one({'_id': entry_id })
-    output = {'name' : new_entry['name'], 'appName' : new_entry['appName']}
-    return jsonify({'result' : output})
+@app.route('/entries/num', methods=['GET'])
+def get_entry_num():
+
+    results = mongo.db.entries.aggregate([
+        {"$match": {
+                "keywords": {"$not": {"$size": 0}}
+            }
+        },
+        { "$unwind": "$keywords"},
+        {
+        "$group": {
+            "_id": {"$toLower": '$keywords'},
+        "count": { "$sum": 1}
+        }
+        },
+        {
+        "$match": {
+            "count": { "$gte": 2}
+        }
+        },
+        { "$sort": {"count": -1}},
+        { "$limit": 100}
+     ])
+
+    return results['result']
+
+@app.route('/graph')
+def graph(chartID='chart_id', chart_type='line', chart_height=500):
+    chart = {"renderTo": chartID, "type": chart_type, "height": chart_height, }
+    series = [{"name": 'Label1', "data": [1, 2, 3]}, {"name": 'Label2', "data": [4, 5, 6]}]
+    title = {"text": 'My Title'}
+    xAxis = {"categories": ['xAxis Data1', 'xAxis Data2', 'xAxis Data3']}
+    yAxis = {"title": {"text": 'yAxis Label'}}
+    return render_template('home.html', chartID=chartID, chart=chart, series=series, title=title, xAxis=xAxis,
+                           yAxis=yAxis)
 
 
 if __name__ == "__main__":
