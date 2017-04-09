@@ -1,35 +1,3 @@
-
-
-from flask import Flask, render_template, request, redirect, flash, jsonify
-from flask_pymongo import PyMongo
-from werkzeug.utils import secure_filename
-from bson import json_util
-import config
-import json
-import os
-
-
-app = Flask(__name__)
-app.secret_key = config.secret_key
-
-cwd = os.getcwd()
-UPLOAD_FOLDER = cwd + '\JSONs'
-ALLOWED_EXTENSIONS = config.allowed_extensions
-
-app.config['MONGO_DBNAME'] = config.dbname
-app.config['MONGO_URI'] = config.mongouri
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-mongo = PyMongo(app)
-
-path = cwd + "\\JSONs"
-
-
-def allowed_file(filename):
-    return '.' in filename and \
-        filename.rsplit('.',1)[1] in config.allowed_extensions
-
-
 def load_json_multiple(segments):
     chunk = ""
 
@@ -40,6 +8,10 @@ def load_json_multiple(segments):
             chunk = ""
         except ValueError:
             pass
+
+
+
+path = "C:\\Users\\Omppu\\PycharmProjects\\Game_Analytic_Software_for_Serious_Games\\Backend\\JSONs\\logs.json"
 
 
 def change_keys(obj, convert):
@@ -205,4 +177,23 @@ def graph(chartID='chart_id', chart_type='line', chart_height=500):
 
 
 if __name__ == "__main__":
+    app.run()
+=======
+with open(path) as f:
+
+    with app.app_context():
+         entries = mongo.db.entries
+         for parsed_json in load_json_multiple(f):
+             newjson = change_keys(parsed_json, replace_dot)
+             entries.update_one(
+                 {"id": newjson["id"]},
+                 {"$setOnInsert": newjson},
+                 upsert=True,
+             )
+
+
+
+
+
+if __name__ == '__main__':
     app.run()
