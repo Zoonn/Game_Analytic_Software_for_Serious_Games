@@ -1,1 +1,3 @@
 *.json
+/Backend/static/css/bourbon/
+/Backend/static/css/neat/
