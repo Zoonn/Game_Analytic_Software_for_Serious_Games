@@ -1,112 +1,69 @@
 <!doctype html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" charset="UTF-8" type="text/css" href="../static/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <title>Help & Information </title>
 
-	<link rel="shortcut icon" href="img/favicon.ico">
-	<link rel="stylesheet" href="css/vendor/fluidbox.min.css">
-	<link rel="stylesheet" href="css/main.css">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="../static/js/jquery-2.2.3.js"></script>
+    <script src="../static/js/chartjs.js"></script>
+    <style>
+        .container {
+            max-width: 1000px;
+        }
+    </style>
+    <style>
+        body {
+            color: white;
+        }
 
-	<title>Help site</title>
+        h1 {
+            color: #ffffff;
+        }
 
+        p {
+            color: rgb(255, 255, 255)
+        }
+    </style>
 </head>
-<body>
+<body background="img/html-color-codes-color-tutorials-hero-00e10b1f.jpg">
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="home.html">GAS</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="upload.html">Upload JSON</a></li>
+                <li><a href="fetch">Fetch all</a></li>
+                <li class="help"><a href="help.html">Help</a></li>
+                <li class="Johtamispeli"><a href="https://jope.sis.uta.fi/login.html">Johtamispeli</a></li>
 
 
-	<header>
 
-		<div id="logo-container">
-			<div id="logo"><a href="/">Help</a></div>
+            </ul>
 
-		</div>
-<!-- 		<nav>
-			<ul>
-				<li><a href="#">Link 1</a></li>
-				<li><a href="#">Link 2</a></li>
-				<li><a href="#">Link 3</a></li>
-				<li><a href="mailto:your@address.com" class="bordered">Contact</a></li>
-			</ul>
-		</nav> -->
-
-	</header>
-
-	<div id="content">
-
-		<section class="intro">
-			<h1>Hello, <span class="nl"></span>we are here to help you.</h1>
-			<p>
-				This is the help site for the GAS project work site.
-			</p>
-		</section>
-
-		<section class="row">
-			<div class="col-full">
-				<h2>Information</h2>
-				<p>
-					This is a project work course work for UTA. The purpose of this program is to upload game analytics
-					data for Johtamispeli (JoPe) and show it for the team.
-				</p>
-			</div>
-		</section>
-
-		<section class="row">
-			<div class="photo-grid">
-				<a href="img/example-photo-b.jpg" rel="lightbox" class="col-2"><img src="img/example-photo-b.jpg" alt="Example photo"></a>
-				<a href="img/example-photo-c.jpg" rel="lightbox" class="col-2"><img src="img/example-photo-c.jpg" alt="Example photo"></a>
-				<a href="img/example-photo-a.jpg" rel="lightbox" class="col-1"><img src="img/example-photo-a.jpg" alt="Example photo"></a>
-			</div>
-		</section>
+            </ul>
 
 
-		<section class="row">
-			<div class="col">
-				<h2>Contact</h2>
-				<p>
-					Link for e-mail <a href="mailto:#">email</a>.
-				</p>
-			</div>
-			<div class="col">
-				<h2>Follow us</h2>
-				<p>
-					Some links for following.
-				</p>
-			</div>
-		</section>
-
-
-		<section class="row">
-			<div class="col-full">
-				<p>
-					© 2017
-				</p>
-			</div>
-		</section>
-
-	</div>
-
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<script>
-	if (!window.jQuery)
-	{
-	    document.write('<script src="js/vendor/jquery.1.11.min.js"><\/script>');
-	}
-	</script>
-
-	<script src="js/vendor/jquery.fluidbox.min.js"></script>
-	<script src="js/main.js"></script>
-
-	<script>
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-	  ga('create', 'YOUR_GOOGLE_ANALYTICS_ID', 'auto');
-	  ga('send', 'pageview');
-
-	</script>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<h2> Here you can find information about this awesome tool, that collects data from Johtamispeli (JoPe) and
+        makes them into fine charts. </h2>
 
 </body>
 </html>
