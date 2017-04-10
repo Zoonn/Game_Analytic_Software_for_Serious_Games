@@ -178,7 +178,7 @@ def graph(chartID='chart_id', chart_type='line', chart_height=500):
 
 if __name__ == "__main__":
     app.run()
-=======
+
 with open(path) as f:
 
     with app.app_context():
