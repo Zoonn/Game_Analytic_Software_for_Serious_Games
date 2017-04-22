@@ -64,7 +64,7 @@ $(document).ready(function() {
 	}
 
 
-	// Seconf chart is made here
+	// Second chart is made here
     function chart2(e1, e2, e3) {
 		// Modified from Highcharts
 		Highcharts.chart('container2', {
