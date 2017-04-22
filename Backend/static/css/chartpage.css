@@ -57,13 +57,24 @@ ol#teksti {
 	margin-left: 100px;
 
 }
-#container {
+#container1 {
 	min-width: 310px;
 	height: 400px;
 	max-width: 600px;
 	margin: 0 auto;
 	margin-top: 100px;
 	background-color: lightblue;
+    padding: 20px;
+}
+
+#container2 {
+	min-width: 310px;
+	height: 400px;
+	max-width: 600px;
+	margin: 0 auto;
+	margin-top: 100px;
+	background-color: lightblue;
+    padding: 20px;
 }
 
 
