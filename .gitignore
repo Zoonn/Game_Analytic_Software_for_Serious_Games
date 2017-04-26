@@ -1,1 +1,7 @@
 *.json
+/Backend/static/css/bourbon/
+/Backend/static/css/neat/
+.idea/
+Backend/__pycache__/
+Backend/config.py
+/Backend/static/css/vendor/

@@ -2,12 +2,27 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="../static/css/style.css">
-    <title>Jsonit</title>
+    <title>GAS Uploader</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
-
-<body background="img/html-color-codes-color-tutorials-hero-00e10b1f.jpg">
-  <nav class="navbar navbar-default" role="navigation">
+    <style>
+      .container {
+        max-width: 1000px;
+      }
+    </style>
+  <style>
+body {
+        color: white;
+}
+h1 {
+        color: #ffffff;
+}
+p {
+        color: rgb(255, 255, 255)
+}
+</style>
+  <body background="img/html-color-codes-color-tutorials-hero-00e10b1f.jpg">
+     <nav class="navbar navbar-default" role="navigation">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -39,7 +54,7 @@
                         <li><a href="#">One more separated link</a></li>
                     </ul>
                 </li>
-            </ul>
+            </ul>>
 
           <ul class="nav navbar-nav navbar-right">
             <li><a href="delete_entries">Delete All</a></li>
@@ -48,9 +63,14 @@
       </div><!-- /.container-fluid -->
     </nav>
 
-   <div id="main" class="container">
+    <div class="container-fluid">
+      <h1>Upload a JSON/LOG-file:</h1>
+      <form action="" method=post enctype=multipart/form-data>
+        <p><input type=file name=file></p>
+        <div style = margin:2px><input type=submit value=Upload onclick=loading();></div>
+        <div style = margin-top:50px><button onclick="location.href='/'" type="button">Back</button></div>
 
-            {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages() %}
             {% if messages %}
               {% for message in messages %}
                 <div class="alert alert-success alert-dismissible" role="alert">
@@ -61,78 +81,7 @@
               {% endfor %}
             {% endif %}
         {% endwith %}
-
-
-        <div id="fetch" style="margin:5px">
-              <div style = "margin-top:50px;margin-left:20px;margin-bottom:20px">
-          {%  for prop in names %}
-             <a href='/entries/{{prop}}'><button style = "margin: 20px 20px 5px;" >{{prop}}</button></a>
-          {% endfor %}
-              <pre id = "show" style="margin-left:20px; margin-right:20px; height: 700px"><code style="margin-left:20px; margin-right:20px; ";>
-          {% print(json) %}</code></pre>
-          </div>
-        </div>
-
-    <div id="container2" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
-
+    </form>
     </div>
-
-      <script type="text/javascript">
-
-       $.getJSON('/entries/userName', function (data) {
-           Highcharts.chart('container2', {
-               chart: {
-                   plotBackgroundColor: null,
-                   plotBorderWidth: null,
-                   plotShadow: false,
-                   type: 'pie'
-               },
-               title: {
-                   text: 'Users'
-               },
-               tooltip: {
-                   pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-               },
-               plotOptions: {
-                   pie: {
-                       allowPointSelect: true,
-                       cursor: 'pointer',
-                       dataLabels: {
-                           enabled: true,
-                           format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                           style: {
-                               color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                           }
-                       }
-                   }
-               },
-               series: [{
-                   name: 'Brands',
-                   colorByPoint: true,
-                   data: [{
-                       name: 'Container',
-                       y: 56.33
-                   }, {
-                       name: 'Office',
-                       y: 24.03,
-                       sliced: true,
-                       selected: true
-                   }, {
-                       name: 'Kaytava',
-                       y: 10.38
-                   }]
-               }]
-           });
-       });
-    </script>
-</body>
+  </body>
 </html>
-
-
-
-
-
-
-
-
-
