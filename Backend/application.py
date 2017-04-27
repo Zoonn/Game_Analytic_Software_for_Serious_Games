@@ -1,3 +1,25 @@
+import json
+import os
+
+from bson import json_util
+from flask import Flask, render_template, request, redirect, flash
+from flask_pymongo import PyMongo
+from werkzeug.utils import secure_filename
+
+import config
+
+app = Flask(__name__)
+app.config.from_object('config')
+app.secret_key = config.secret_key
+
+mongo = PyMongo(app)
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.',1)[1] in config.ALLOWED_EXTENSIONS
+
+
 def load_json_multiple(segments):
     chunk = ""
 
@@ -8,10 +30,6 @@ def load_json_multiple(segments):
             chunk = ""
         except ValueError:
             pass
-
-
-
-path = "C:\\Users\\Omppu\\PycharmProjects\\Game_Analytic_Software_for_Serious_Games\\Backend\\JSONs\\logs.json"
 
 
 def change_keys(obj, convert):
@@ -47,7 +65,7 @@ def init_db(newpath):
                  )
 
 
-@app.route('/upload.html', methods=['GET', 'POST'])
+@app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
@@ -65,7 +83,7 @@ def upload_file():
             filename = os.path.splitext(filename)[0] + ".json"
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             flash(filename + ": Upload successful!")
-            newpath = path + "\\"+filename
+            newpath = config.UPLOAD_FOLDER + "/"+filename
             init_db(newpath)
             flash(filename + ": Upload into database successful!")
             return redirect(request.url)
@@ -76,7 +94,6 @@ def upload_file():
 
 
 def toJson(data):
-    """Convert Mongo object(s) to JSON"""
     return json.dumps(data, default=json_util.default, sort_keys=True, indent=4, separators=(',', ': ')
                       , ensure_ascii=False)
 
@@ -139,12 +156,12 @@ def get_entry(json_id):
     return toJson(json_results)
 
 
-@app.route('/entries/num', methods=['GET'])
+@app.route('/entries/num')
 def get_entry_num():
 
     results = mongo.db.entries.aggregate([
         {"$match": {
-                "keywords": {"$not": {"$size": 0}}
+                "appName": {"$not": {"$size": 0}}
             }
         },
         { "$unwind": "$keywords"},
@@ -159,41 +176,32 @@ def get_entry_num():
             "count": { "$gte": 2}
         }
         },
-        { "$sort": {"count": -1}},
-        { "$limit": 100}
+        { "$sort": {"count": -1}}
+
      ])
 
-    return results['result']
+    x = []
+    for doc in results:
+        x.append(doc)
 
-@app.route('/graph')
+    print(x)
+
+    return render_template('home.html')
+
+@app.route('/charts')
 def graph(chartID='chart_id', chart_type='line', chart_height=500):
     chart = {"renderTo": chartID, "type": chart_type, "height": chart_height, }
     series = [{"name": 'Label1', "data": [1, 2, 3]}, {"name": 'Label2', "data": [4, 5, 6]}]
     title = {"text": 'My Title'}
     xAxis = {"categories": ['xAxis Data1', 'xAxis Data2', 'xAxis Data3']}
     yAxis = {"title": {"text": 'yAxis Label'}}
-    return render_template('home.html', chartID=chartID, chart=chart, series=series, title=title, xAxis=xAxis,
+    return render_template('charts.html', chartID=chartID, chart=chart, series=series, title=title, xAxis=xAxis,
                            yAxis=yAxis)
 
+@app.route('/help')
+def help():
+    return render_template('help.html')
 
-if __name__ == "__main__":
-    app.run()
-
-with open(path) as f:
-
-    with app.app_context():
-         entries = mongo.db.entries
-         for parsed_json in load_json_multiple(f):
-             newjson = change_keys(parsed_json, replace_dot)
-             entries.update_one(
-                 {"id": newjson["id"]},
-                 {"$setOnInsert": newjson},
-                 upsert=True,
-             )
-
-
-
-
-
-if __name__ == '__main__':
-    app.run()
+@app.route('/chartpage')
+def chartpage():
+    return render_template('chartpage.html')
