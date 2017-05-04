@@ -2,8 +2,23 @@ h1 {
     color: white;
 }
 
+h2 {
+    color: white
+}
+
+
+.container {
+    max-width: 1000px;
+        }
+
+
+body {
+    color: white;
+        }
+
 p  {
    display: inline-block;
+    color: rgb(255, 255, 255)
 }
 
 div#content {
