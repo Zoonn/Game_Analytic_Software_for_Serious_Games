@@ -4923,7 +4923,7 @@ $(document).ready(function() {
 	}
 ]
 
-for (i=0;i<data.length;i++)
+//for (i=0;i<data.length;i++)
 
     // This is test data. It has to be replaced with data from DB
 	var testData1 = [{"a1":17,"a2":13,"a3":12},{"a1":27,"a2":23,"a3":22},{"a1":11,"a2":15,"a3":16},{"a1":21,"a2":24,"a3":22}];
@@ -4993,7 +4993,7 @@ for (i=0;i<data.length;i++)
     // First chart is made here (Working hours)
 	function chart1(d1, d2, d3) {
 		// Modified from Highcharts
-		Highcharts.chart('container1', {
+		Highcharts.chart('subcontainer1', {
     chart: {
         type: 'bar'
     },
@@ -5033,7 +5033,7 @@ for (i=0;i<data.length;i++)
 	// Second chart is made here
     function chart2(e1, e2, e3, e4, e5, e6, e7) {
 		// Modified from Highcharts
-		Highcharts.chart('container2', {
+		Highcharts.chart('subcontainer2', {
     chart: {
         type: 'pie'
     },
