@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" charset="UTF-8" type="text/css" href="../static/css/style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <title>GAS</title>
 
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="../static/js/jquery-2.2.3.js"></script>
-    <script src="../static/js/chartjs.js"></script>
+<head>
+    
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+	<link rel="stylesheet" charset="UTF-8" type="text/css" href="../static/css/chartpage.css">
+	
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    
+	<title>GAS</title>
 
 </head>
+
 <body background="../static/img/html-color-codes-color-tutorials-hero-00e10b1f.jpg">
+
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -24,7 +27,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">GAS</a>
+            <a class="navbar-brand" href="/">Game Analysis Software</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -32,20 +35,9 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="upload.html">Upload JSON</a></li>
                 <li><a href="fetch">Fetch all</a></li>
+                <li><a href="chartpage">Chartpage</a></li>
                 <li class="help"><a href="help">Help</a></li>
                 <li class="Johtamispeli"><a href="https://jope.sis.uta.fi/login.html">Johtamispeli</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="https://jope.sis.uta.fi/login.html">Johtamispeli</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
-                </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
@@ -55,7 +47,23 @@
     </div><!-- /.container-fluid -->
 </nav>
 
+<div class="maincontainer">
+	<div id="subcontainer1"></div>
+	<div id="subcontainer2"></div>
+</div>
 
+<script src="https://code.jquery.com/jquery-3.2.1.js"
+			  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+			  crossorigin="anonymous"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+<script src="../static/js/chartpage.js"></script>
 
 </body>
+
 </html>

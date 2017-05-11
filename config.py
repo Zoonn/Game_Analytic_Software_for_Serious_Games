@@ -11,7 +11,7 @@ CSRF_ENABLED = True
 ALLOWED_EXTENSIONS = {'log', 'json'}
 MONGO_DBNAME = 'gas'
 MONGO_URI = 'mongodb://motieater:paska@ds145009.mlab.com:45009/gas'
-UPLOAD_FOLDER = basedir + '\\Backend\\JSONs'
+UPLOAD_FOLDER = basedir + '\\app\\JSONs'
 
 AUTH_TYPE = 1
 AUTH_ROLE_ADMIN = 'Admin'

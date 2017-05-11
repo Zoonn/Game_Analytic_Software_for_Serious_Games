@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" charset="UTF-8" type="text/css" href="../static/css/style.css">
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    <title>GAS Uploader</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <title>GAS</title>
-
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="../static/js/jquery-2.2.3.js"></script>
-
-</head>
-<body background="../static/img/html-color-codes-color-tutorials-hero-00e10b1f.jpg">
-      <nav class="navbar navbar-default" role="navigation">
+    <style>
+      .container {
+        max-width: 1000px;
+      }
+    </style>
+  <body background="../static/img/html-color-codes-color-tutorials-hero-00e10b1f.jpg">
+  <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -31,20 +30,8 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="upload.html">Upload JSON</a></li>
                 <li><a href="fetch">Fetch all</a></li>
-                <li class="help"><a href="help">Help</a></li>
+                <li><a href="chartpage">Chartpage</a></li>
                 <li class="Johtamispeli"><a href="https://jope.sis.uta.fi/login.html">Johtamispeli</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="https://jope.sis.uta.fi/login.html">Johtamispeli</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
-                </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
@@ -52,9 +39,27 @@
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
-</nav>
+    </nav>
 
+    <div class="container-fluid">
+      <h1>Upload a JSON/LOG-file:</h1>
+      <form action="" method=post enctype=multipart/form-data>
+        <p><input type=file name=file></p>
+        <div style = margin:2px><input type=submit value=Upload onclick=loading();></div>
+        <div style = margin-top:50px><button onclick="location.href='/'" type="button">Back</button></div>
 
-
-</body>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">close
+                </button>
+                    {{message}}
+                </div>
+              {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </form>
+    </div>
+  </body>
 </html>
