@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
 
-<body background="../static/img/html-color-codes-color-tutorials-hero-00e10b1f.jpg">
+<body>
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -49,7 +49,7 @@
     </div><!-- /.container-fluid -->
 </nav>
 
-   <div id="main" class="container" style="position:relative">
+   <div id="main" class="container">
 
             {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -64,8 +64,8 @@
         {% endwith %}
 
 
-        <div id="fetch" style="margin:5px; position:absolute; float: right; margin-left: 11em">
-              <div style = "margin-top:50px;margin-left:20px;margin-bottom:20px">
+        <div id="fetch">
+
           {%  for prop in names %}
              <a href='/entries/{{prop}}'><button style = "margin: 20px 20px 5px;" >{{prop}}</button></a>
 
@@ -75,7 +75,8 @@
           </div>
         </div>
 
-        <div id = "checkboxes" style="float: left; position:absolute; margin-top: 16em">
+
+        <div id = "checkboxes">
 
             <p style="padding:0px;"><p class="cb-styles clearfix">
 
@@ -86,21 +87,27 @@
             <table class="filter">
                 <tr>
                     <td>
-                        <input type="checkbox" class="css-checkbox" id="checkbox"  checked="checked"/>
+                        <input type="checkbox" class="css-checkbox" id="checkbox"  value=""/>
                         <label for="checkbox" name="checkbox_lbl" class="css-label">{{prop}}</label>
                     </td>
                 </tr>
             </table>
 
             {% endfor %}
+            <br/>
+            <input type="button" id="sendselected" value="Send">
 
         </div>
 
-        <!--<div id="container2" style="min-width: 400px; height: 400px; margin: 0 auto; float: right; position:relative;"></div>-->
+        <div id="container2"></div>
 
    </div>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="../static/js/jquery-2.2.3.js"></script>
 
       <script type="text/javascript">
+
        $.getJSON('/entries/userName', function (data) {
            Highcharts.chart('container2', {
                chart: {
@@ -149,3 +156,12 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+

@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" charset="UTF-8" type="text/css" href="../static/css/style.css">
+    {% block head %}
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <title>GAS</title>
+    <title>{% block title %}GAS{% endblock %}</title>
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="../static/js/jquery-2.2.3.js"></script>
-    <script src="../static/js/chartjs.js"></script>
 
+    {% endblock %}
 </head>
-<body background="../static/img/html-color-codes-color-tutorials-hero-00e10b1f.jpg">
+<body>
 
+
+{% block nav %}
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -43,8 +46,26 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+{% endblock %}
 
+{% block welcome %}
 
+<h1 id="welcome" style="text-align:center; font-family: 'Helvetica Neue', sans-serif;
+    font-size: 30px; font-weight: normal; line-height: 54px; margin: 0 0 54px;">
+    Welcome to GAS: Analytics software for serious games!</h1>
+{% endblock %}
 
+<div id="uploader">{% block uploader %}{% endblock %}</div>
+{% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="alert.style.display='none'">close
+                </button>
+                    {{message}}
+                </div>
+              {% endfor %}
+            {% endif %}
+        {% endwith %}
 </body>
 </html>

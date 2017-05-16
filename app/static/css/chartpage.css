@@ -1,7 +1,6 @@
 
 
 h1 {
-	display: justify;
 	background-color: #899;
 	font-family: Times, serif;
 	padding-bottom: 50px;
@@ -92,6 +91,5 @@ li {
 }
 
 body {
-	background-image: humidity.png;
 	background-color: lightblue;	
 }
