@@ -152,13 +152,12 @@ def get_entry(json_id):
         for result in results:
             jsons = json.loads(result)
             keys = jsons.keys()
-            for k, v in jsons:
-                if k in id_results:
-                    id_results[k].append(v)
-                else:
-                    var = result
-                    print(var)
-                    id_results[k] = v
+         #   for k, v in jsons:
+           #     if k in id_results:
+          #          id_results[k].append(v)
+           #     else:
+            #        var = result
+           #         id_results[k] = v
 
 
     return toJson(id_results)
