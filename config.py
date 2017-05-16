@@ -9,8 +9,6 @@ MONGODB_SETTINGS = {'DB': 'testing'}
 CSRF_ENABLED = True
 
 ALLOWED_EXTENSIONS = {'log', 'json'}
-MONGO_DBNAME = 'gas'
-MONGO_URI = 'mongodb://motieater:paska@ds145009.mlab.com:45009/gas'
 UPLOAD_FOLDER = basedir + '\\app\\JSONs'
 
 AUTH_TYPE = 1
