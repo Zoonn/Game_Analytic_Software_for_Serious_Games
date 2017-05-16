@@ -15,10 +15,6 @@ app = Flask(__name__)
 app.config.from_object('config')
 app.secret_key = config.secret_key
 
-mongo = PyMongo(app)
-
-
-
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -56,18 +52,6 @@ def replace_dot(string):
     newstring = string.replace(".", "-")
     return newstring
 
-
-def init_db(newpath):
-    with open(newpath) as f:
-        with app.app_context():
-            entries = mongo.db.entries
-            for parsed_json in load_json_multiple(f):
-                newjson = change_keys(parsed_json, replace_dot)
-                entries.update_one(
-                     {"id": newjson["id"]},
-                     {"$setOnInsert": newjson},
-                     upsert=True,
-                 )
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
@@ -133,19 +117,17 @@ def index():
 
 @app.route('/fetch', methods=['GET'])
 def get_all_entries():
-    entry = mongo.db.entries
-    lim = int(request.args.get('limit', 200))
-    off = int(request.args.get('offset', 0))
-    results = entry.find().skip(off).limit(lim)
+    jsonpath = config.UPLOAD_FOLDER + '\\jsons.json'
     json_results = []
     json_keys = []
-    key = 0
-    for result in results:
-        json_results.append(result)
-        keys = result.keys()
-        for key in keys:
-            if key not in json_keys:
-                json_keys.append(key)
+    with open(jsonpath) as results:
+        for result in results:
+            jsons = json.loads(result)
+            json_results.append(jsons)
+            keys = jsons.keys()
+            for key in keys:
+                if key not in json_keys:
+                    json_keys.append(key)
     return render_template("json.html", json=toJson(json_results), names=json_keys)
 
 
@@ -162,9 +144,8 @@ def delete_entries():
 
 @app.route('/entries/<json_id>', methods=['GET'])
 def get_entry(json_id):
-    entry = mongo.db.entries
 
-    results = entry.find({ },{json_id : 1, "_id" :0})
+    results = []
     id_results = {}
     parsed_dict = {}
     for result in results:
