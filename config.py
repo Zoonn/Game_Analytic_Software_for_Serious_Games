@@ -9,7 +9,7 @@ MONGODB_SETTINGS = {'DB': 'testing'}
 CSRF_ENABLED = True
 
 ALLOWED_EXTENSIONS = {'log', 'json'}
-UPLOAD_FOLDER = basedir + '\\app\\JSONs'
+UPLOAD_FOLDER = basedir + '/app/JSONs'
 
 AUTH_TYPE = 1
 AUTH_ROLE_ADMIN = 'Admin'

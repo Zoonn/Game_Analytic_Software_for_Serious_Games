@@ -72,12 +72,12 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             filename = os.path.splitext(filename)[0] + ".json"
-            path = config.basedir + '\\app\\JSONs'
+            path = config.basedir + '/app/JSONs'
             file.save(os.path.join(path, filename))
 
             result = []
-            newjsonpath = path + '\\' +filename
-            oldjsonpath = path + '\\' + 'jsons.json'
+            newjsonpath = path + '/' +filename
+            oldjsonpath = path + '/' + 'jsons.json'
 
             with open(newjsonpath) as newjson_file:
                 with open(oldjsonpath) as oldjson_file:
@@ -95,7 +95,7 @@ def upload_file():
             os.remove(newjsonpath)
             flash(filename + ": Upload successful!")
 
-            # newpath = config.UPLOAD_FOLDER + "\\"+filename
+            # newpath = config.UPLOAD_FOLDER + "/"+filename
             # init_db(newpath)
             #flash(filename + ": Upload into database successful!")
             return redirect(request.url)
@@ -117,7 +117,7 @@ def index():
 
 @app.route('/fetch', methods=['GET'])
 def get_all_entries():
-    jsonpath = config.UPLOAD_FOLDER + '\\jsons.json'
+    jsonpath = config.UPLOAD_FOLDER + '/jsons.json'
     json_results = []
     json_keys = []
     with open(jsonpath) as results:
@@ -133,7 +133,7 @@ def get_all_entries():
 
 @app.route('/delete_entries')
 def delete_entries():
-    json_path = config.UPLOAD_FOLDER + '\\jsons.json'
+    json_path = config.UPLOAD_FOLDER + '/jsons.json'
     with open(json_path, "w"):
         pass
 
@@ -144,19 +144,21 @@ def delete_entries():
 
 @app.route('/entries/<json_id>', methods=['GET'])
 def get_entry(json_id):
-
+    jsonpath = config.UPLOAD_FOLDER + '/jsons.json'
     results = []
     id_results = {}
     parsed_dict = {}
-    for result in results:
-        parsed_dict = myprint(result)
-        for k, v in parsed_dict.items():
-            if k in id_results:
-                id_results[k].append(v)
-            else:
-                var = result
-                print(var)
-                id_results[k] = [v]
+    with open(jsonpath) as results:
+        for result in results:
+            jsons = json.loads(result)
+            keys = jsons.keys()
+            for k, v in jsons:
+                if k in id_results:
+                    id_results[k].append(v)
+                else:
+                    var = result
+                    print(var)
+                    id_results[k] = v
 
 
     return toJson(id_results)
