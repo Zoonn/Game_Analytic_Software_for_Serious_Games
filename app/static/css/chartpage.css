@@ -1,95 +1,52 @@
 
-
-h1 {
-	background-color: #899;
-	font-family: Times, serif;
-	padding-bottom: 50px;
-	overflow: hidden;
-	}
-
-#navbar {
-		background-color: #999;
-		padding-bottom: 50px;
-	
-}
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-.active {
-    background-color: #444F50;
-}
-#buttons {
-	padding-top: 50px;
-
-	overflow: hidden;
+.maincontainer {
+    margin-top: 3%;
 }
 
-#bttn1 {
-	background-color: #999;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-
-#bttn2 {
-	background-color: #999;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-
-
-
-ol#teksti {
-	margin-left: 100px;
-
-}
-#container1 {
-	min-width: 310px;
-	height: 400px;
-	max-width: 600px;
-	margin: 0 auto;
-	margin-top: 100px;
-	background-color: lightblue;
-    padding: 20px;
-}
-
-#container2 {
-	min-width: 310px;
-	height: 400px;
-	max-width: 600px;
-	margin: 0 auto;
-	margin-top: 100px;
-	background-color: lightblue;
-    padding: 20px;
-}
-
-
-
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding-top: 0;
-    overflow: hidden;
-    background-color: #433;
-}
-
-li {
+#subcontainer1 {
+    width: 47%;
     float: left;
+	margin-left: 2%;
+    margin-right: 1%;
+    border-style: solid;
+    border-color: gray;
+    border-width: 2px;
+    overflow: hidden;
 }
 
-body {
-	background-color: lightblue;	
+#subcontainer2 {
+    width: 47%;
+    float: right;
+	margin-left: 1%;
+    margin-right: 2%;
+    border-style: solid;
+    border-color: gray;
+    border-width: 2px;
+    overflow: hidden;
+}
+
+#subcontainer3 {
+    width: 47%;
+    float: left;
+    margin-top: 2%;
+    margin-left: 2%;
+    margin-right: 1%;
+    margin-bottom: 1%;
+    border-style: solid;
+    border-color: gray;
+    border-width: 2px;
+    overflow: hidden;
+}
+
+#subcontainer4 {
+    width: 47%;
+    float: right;
+    margin-top: 2%;
+    margin-left: 1%;
+    margin-right: 2%;
+    margin-bottom: 1%;
+    border-style: solid;
+    border-color: gray;
+    border-width: 2px;
+    overflow: hidden;
 }
