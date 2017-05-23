@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
 
+
 <body>
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
@@ -38,6 +39,7 @@
 </nav>
 
    <div id="main" class="container">
+       <link href="../static/css/json.css" rel="stylesheet" media="screen">
 
             {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -52,46 +54,49 @@
         {% endwith %}
 
 
-        <div id="fetch">
-
-          {%  for prop in names %}
-             <a href='/entries/{{prop}}'><button style = "margin: 20px 20px 5px;" >{{prop}}</button></a>
-
-          {% endfor %}
-              <pre id = "show" style="margin-left:20px; margin-right:20px; height: 700px;"><code style="margin-left:20px; margin-right:20px">
-          {% print(json) %}</code></pre>
-          </div>
-        </div>
-
-
-        <div id = "checkboxes">
-
-            <p style="padding:0px;"><p class="cb-styles clearfix">
-
-            <span style="font-size: 150%"><b>Filter</b></span>
-
+        <div id="keys" style = "width:100%">
+            <div style ="height: 150px; width:100%">
+            <ul>
             {%  for prop in names %}
 
-            <table class="filter">
-                <tr>
-                    <td>
-                        <input type="checkbox" class="css-checkbox" id="checkbox"  value=""/>
-                        <label for="checkbox" name="checkbox_lbl" class="css-label">{{prop}}</label>
-                    </td>
-                </tr>
-            </table>
+                     {% if prop not in keydict %}
+                          <a href='/entries/{{prop}}'><li style = "display: inline-block; margin: 20px 20px 5px" >{{prop}}</li></a>
+                     {% endif %}
+            </ul>
+          {% endfor %}
+            </div>
+            {% for key in keydict %}
+            <ul style="float:left; width: 300px">
 
+                    <li>{{key}}</li>
+
+                {% set list = keydict[key] %}
+                        <ul style="display: inline-block; width: 100px;">
+                    {% for key2 in list %}
+                            <a href='/entries/{{key2}}'><li>{{key2}}</li></a>
+                    {% endfor %}
+                        </ul>
+            </ul>
             {% endfor %}
-            <br/>
-            <input type="button" id="sendselected" value="Send">
+
 
         </div>
 
-        <div id="container2"></div>
+       <div id="container2"></div>
+
+       <div id="fetch" style = "display:inline-block; margin: 30px 30px 10px">
+              <pre id = "show" style="margin-left:20px; margin-right:20px; height: 700px;"><code style="display: inline-block; margin-left:20px; margin-right:20px">
+          {% print(json) %}</code></pre>
+        </div>
+   </div>
+
+
+
 
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="../static/js/jquery-2.2.3.js"></script>
+
 
       <script type="text/javascript">
 
@@ -140,6 +145,7 @@
                }]
            });
        });
+
     </script>
 </body>
 </html>

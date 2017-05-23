@@ -9,8 +9,6 @@ from collections import defaultdict
 
 import config
 
-
-
 app = Flask(__name__)
 app.config.from_object('config')
 app.secret_key = config.secret_key
@@ -18,7 +16,7 @@ app.secret_key = config.secret_key
 
 def allowed_file(filename):
     return '.' in filename and \
-           filename.rsplit('.',1)[1] in config.ALLOWED_EXTENSIONS
+           filename.rsplit('.', 1)[1] in config.ALLOWED_EXTENSIONS
 
 
 def load_json_multiple(segments):
@@ -34,7 +32,6 @@ def load_json_multiple(segments):
 
 
 def change_keys(obj, convert):
-
     if isinstance(obj, (str, int, float)):
         return obj
     if isinstance(obj, dict):
@@ -76,7 +73,7 @@ def upload_file():
             file.save(os.path.join(path, filename))
 
             result = []
-            newjsonpath = path + '/' +filename
+            newjsonpath = path + '/' + filename
             oldjsonpath = path + '/' + 'jsons.json'
 
             with open(newjsonpath) as newjson_file:
@@ -97,7 +94,7 @@ def upload_file():
 
             # newpath = config.UPLOAD_FOLDER + "/"+filename
             # init_db(newpath)
-            #flash(filename + ": Upload into database successful!")
+            # flash(filename + ": Upload into database successful!")
             return redirect(request.url)
         else:
             flash("No supported file")
@@ -107,7 +104,7 @@ def upload_file():
 
 def toJson(data):
     return json.dumps(data, default=json_util.default, sort_keys=True, indent=4, separators=(',', ': ')
-                      , ensure_ascii=False)
+                      )
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -119,16 +116,42 @@ def index():
 def get_all_entries():
     jsonpath = config.UPLOAD_FOLDER + '/jsons.json'
     json_results = []
+    key_dict = {}
     json_keys = []
+    nestedkeylist = []
+    secondnestedkeylist = []
     with open(jsonpath) as results:
         for result in results:
             jsons = json.loads(result)
             json_results.append(jsons)
             keys = jsons.keys()
+
             for key in keys:
                 if key not in json_keys:
                     json_keys.append(key)
-    return render_template("json.html", json=toJson(json_results), names=json_keys)
+
+            for key in jsons:
+                value = jsons[key]
+                if isinstance(value, dict):
+                    nestedkeys = value.keys()
+
+                    for key2 in nestedkeys:
+                        if key2 not in nestedkeylist:
+                            nestedkeylist.append(key2)
+
+                    key_dict[key] = nestedkeylist
+
+                    for key3 in value:
+                        secondvalue = value[key3]
+                        if isinstance(secondvalue, dict):
+                            secondnestedkeys = secondvalue.keys()
+
+                            for key4 in secondnestedkeys:
+                                if key4 not in json_keys:
+                                    secondnestedkeylist.append(key4)
+                            key_dict[key] = secondnestedkeylist
+
+    return render_template("json.html", json=toJson(json_results), names=json_keys, keydict=key_dict)
 
 
 @app.route('/delete_entries')
@@ -145,33 +168,72 @@ def delete_entries():
 @app.route('/entries/<json_id>', methods=['GET'])
 def get_entry(json_id):
     jsonpath = config.UPLOAD_FOLDER + '/jsons.json'
-    results = []
     id_results = {}
-    parsed_dict = {}
+
     with open(jsonpath) as results:
         for result in results:
             jsons = json.loads(result)
-            keys = jsons.keys()
-         #   for k, v in jsons:
-           #     if k in id_results:
-          #          id_results[k].append(v)
-           #     else:
-            #        var = result
-           #         id_results[k] = v
+            for key in jsons:
+                value = jsons[key]
+                if isinstance(value, dict):
+                    for secondkey in value:
+                        secondvalue = value[secondkey]
 
+                        if isinstance(secondvalue, dict):
+                            for thirdkey in secondvalue:
+                                thirdvalue = secondvalue[thirdkey]
+
+                                if isinstance(thirdvalue, dict):
+                                    for fourthkey in thirdvalue:
+                                        fourthvalue = thirdvalue[fourthkey]
+
+                                        if isinstance(fourthvalue, dict):
+                                            for fifthkey in fourthvalue:
+                                                fifthvalue = fourthvalue[fifthkey]
+
+                                                if isinstance(fifthvalue, dict):
+                                                    for sixthkey in fifthvalue:
+                                                        sixthvalue = fifthvalue[sixthkey]
+
+                                                        if sixthkey == json_id:
+                                                            if sixthvalue in id_results:
+                                                                id_results[sixthvalue] += 1
+                                                            else:
+                                                                id_results[sixthvalue] = 1
+
+                                                else:
+                                                    if fifthkey == json_id:
+                                                        if fifthvalue in id_results:
+                                                            id_results[fifthvalue] += 1
+                                                        else:
+                                                            id_results[fifthvalue] = 1
+                                        else:
+                                            if fourthkey == json_id:
+                                                if fourthvalue in id_results:
+                                                    id_results[fourthvalue] += 1
+                                                else:
+                                                    id_results[fourthvalue] = 1
+                                else:
+                                    if thirdkey == json_id:
+                                        if thirdvalue in id_results:
+                                            id_results[thirdvalue] += 1
+                                        else:
+                                            id_results[thirdvalue] = 1
+                        elif secondkey == json_id:
+                            if secondkey == json_id:
+                                if secondvalue in id_results:
+                                    id_results[secondvalue] += 1
+                                else:
+                                    id_results[secondvalue] = 1
+
+                else:
+                    if key == json_id:
+                        if value in id_results:
+                            id_results[value] += 1
+                        else:
+                            id_results[value] = 1
 
     return toJson(id_results)
-
-
-def myprint(d):
-    dicts = {}
-    for k, v in d.items():
-        if isinstance(v, dict):
-            myprint(v)
-        else:
-             dicts[k] = v
-
-    return dicts
 
 
 @app.route('/help')
@@ -183,23 +245,15 @@ def help():
 def chartpage():
     return render_template('chartpage.html')
 
+
 @app.route('/charttest')
-def charttest(chartID = 'chart_ID', chart_type = 'bar', chart_height = 350):
-    chart = {"renderTo": chartID, "type": chart_type, "height": chart_height,}
-    series = [{"name": 'Label1', "data": [1,2,3]}, {"name": 'Label2', "data": [4, 5, 6]}]
+def charttest(chartID='chart_ID', chart_type='bar', chart_height=350):
+    chart = {"renderTo": chartID, "type": chart_type, "height": chart_height, }
+    series = [{"name": 'Label1', "data": [1, 2, 3]}, {"name": 'Label2', "data": [4, 5, 6]}]
     title = {"text": 'My Title'}
     xAxis = {"categories": ['xAxis Data1', 'xAxis Data2', 'xAxis Data3']}
     yAxis = {"title": {"text": 'yAxis Label'}}
-    return render_template('chartTest.html', chartID=chartID, chart=chart, series=series, title=title, xAxis=xAxis, yAxis=yAxis)
+    return render_template('chartTest.html', chartID=chartID, chart=chart, series=series, title=title, xAxis=xAxis,
+                           yAxis=yAxis)
 
-
-def parse_json(json_results):
-    parsed_jsons = defaultdict(list)
-
-    for key, value in json_results:
-        parsed_jsons[key].append(value)
-
-    d = dict((key, tuple(value)) for key, value in parsed_jsons.items())
-
-    print(d)
 
