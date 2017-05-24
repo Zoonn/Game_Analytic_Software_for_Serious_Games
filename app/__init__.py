@@ -3,9 +3,8 @@ import os
 
 from bson import json_util
 from flask import Flask, render_template, request, redirect, flash
-from flask_pymongo import PyMongo
 from werkzeug.utils import secure_filename
-from collections import defaultdict
+
 
 import config
 
@@ -92,9 +91,6 @@ def upload_file():
             os.remove(newjsonpath)
             flash(filename + ": Upload successful!")
 
-            # newpath = config.UPLOAD_FOLDER + "/"+filename
-            # init_db(newpath)
-            # flash(filename + ": Upload into database successful!")
             return redirect(request.url)
         else:
             flash("No supported file")
