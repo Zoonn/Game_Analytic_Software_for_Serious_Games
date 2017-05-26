@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    <title>Jsonit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+
+<body>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">GAS</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="upload">Upload JSON</a></li>
+                <li><a href="fetch">Fetch all</a></li>
+                <li><a href="chartpage">Chartpage</a></li>
+                <li class="Johtamispeli"><a href="https://jope.sis.uta.fi/login.html">Johtamispeli</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="delete_entries">Delete All</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+   <div id="main" class="container">
+       <link href="../static/css/json.css" rel="stylesheet" media="screen">
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">close
+                </button>
+                    {{message}}
+                </div>
+              {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+
+        <div id="keys" style = "width:100%">
+            <div style ="height: 150px; width:100%">
+            <ul>
+            {%  for prop in names %}
+
+                     {% if prop not in keydict %}
+                          <a href='/entries/{{prop}}'><li style = "display: inline-block; margin: 20px 20px 5px" >{{prop}}</li></a>
+                     {% endif %}
+            </ul>
+          {% endfor %}
+            </div>
+            {% for key in keydict %}
+            <ul style="float:left; width: 300px">
+
+                    <li>{{key}}</li>
+
+                {% set list = keydict[key] %}
+                        <ul style="display: inline-block; width: 100px;">
+                    {% for key2 in list %}
+                            <a href='/entries/{{key2}}'><li>{{key2}}</li></a>
+                    {% endfor %}
+                        </ul>
+            </ul>
+            {% endfor %}
+
+
+        </div>
+
+       <div id="container2" style ="width:500px; height: 600px ; margin: 30px 30px 30px 30px;float:left"></div>
+
+       <div id="fetch" style = "margin: 30px 30px 10px">
+              <pre id = "show" style="margin: 30px 30px 30px 30px; height: 700px;float:left"><code style=" margin-left:20px; margin-right:20px">
+          {% print(json) %}</code></pre>
+        </div>
+   </div>
+
+
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="../static/js/jquery-2.2.3.js"></script>
+
+
+      <script type="text/javascript">
+
+       $.getJSON('/entries/userName', function (data) {
+           Highcharts.chart('container2', {
+               chart: {
+                   plotBackgroundColor: null,
+                   plotBorderWidth: null,
+                   plotShadow: false,
+                   type: 'pie'
+               },
+               title: {
+                   text: 'Users'
+               },
+               tooltip: {
+                   pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+               },
+               plotOptions: {
+                   pie: {
+                       allowPointSelect: true,
+                       cursor: 'pointer',
+                       dataLabels: {
+                           enabled: true,
+                           format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                           style: {
+                               color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                           }
+                       }
+                   }
+               },
+               series: [{
+                   name: 'Brands',
+                   colorByPoint: true,
+                   data: [{
+                       name: 'Container',
+                       y: 56.33
+                   }, {
+                       name: 'Office',
+                       y: 24.03,
+                       sliced: true,
+                       selected: true
+                   }, {
+                       name: 'Kaytava',
+                       y: 10.38
+                   }]
+               }]
+           });
+       });
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <title>{% block title %}GAS{% endblock %}</title>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="../static/js/jquery-2.2.3.js"></script>
+
+    {% endblock %}
+</head>
+<body>
+
+
+{% block nav %}
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">GAS</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="upload">Upload JSON</a></li>
+                <li><a href="fetch">Fetch all</a></li>
+                <li><a href="chartpage">Chartpage</a></li>
+                <li class="Johtamispeli"><a href="https://jope.sis.uta.fi/login.html">Johtamispeli</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="delete_entries">Delete All</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+{% endblock %}
+
+{% block welcome %}
+
+<h1 id="welcome" style="text-align:center; font-family: 'Helvetica Neue', sans-serif;
+    font-size: 30px; font-weight: normal; line-height: 54px; margin: 0 0 54px;">
+    Welcome to GAS: Analytics software for serious games!</h1>
+{% endblock %}
+
+<div id="uploader">{% block uploader %}{% endblock %}</div>
+{% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="alert.style.display='none'">close
+                </button>
+                    {{message}}
+                </div>
+              {% endfor %}
+            {% endif %}
+        {% endwith %}
+</body>
+</html>

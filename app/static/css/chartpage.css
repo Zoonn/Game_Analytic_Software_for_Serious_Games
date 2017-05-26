@@ -1,0 +1,52 @@
+
+.maincontainer {
+    margin-top: 3%;
+}
+
+#subcontainer1 {
+    width: 47%;
+    float: left;
+	margin-left: 2%;
+    margin-right: 1%;
+    border-style: solid;
+    border-color: gray;
+    border-width: 2px;
+    overflow: hidden;
+}
+
+#subcontainer2 {
+    width: 47%;
+    float: right;
+	margin-left: 1%;
+    margin-right: 2%;
+    border-style: solid;
+    border-color: gray;
+    border-width: 2px;
+    overflow: hidden;
+}
+
+#subcontainer3 {
+    width: 47%;
+    float: left;
+    margin-top: 2%;
+    margin-left: 2%;
+    margin-right: 1%;
+    margin-bottom: 1%;
+    border-style: solid;
+    border-color: gray;
+    border-width: 2px;
+    overflow: hidden;
+}
+
+#subcontainer4 {
+    width: 47%;
+    float: right;
+    margin-top: 2%;
+    margin-left: 1%;
+    margin-right: 2%;
+    margin-bottom: 1%;
+    border-style: solid;
+    border-color: gray;
+    border-width: 2px;
+    overflow: hidden;
+}

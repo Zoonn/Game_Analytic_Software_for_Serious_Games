@@ -1,0 +1,5 @@
+
+.idea/
+Backend/__pycache__/
+Backend/config.py
+/Backend/static/css/vendor/
